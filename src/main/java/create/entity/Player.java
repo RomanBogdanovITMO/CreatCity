@@ -5,11 +5,13 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "player")
+@Table(name = "user_table")
 public class Player {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_id")
@@ -27,10 +29,25 @@ public class Player {
     private String name;
     @Column(name = "active")
     private int active;
-
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "player_role", joinColumns = @JoinColumn(name = "player_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
+
+//    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private Set<Map> mapSet;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "Player_has_Map",joinColumns = {@JoinColumn(name = "playerPlayWithMap_id")},
+            inverseJoinColumns ={@JoinColumn(name = "map_id")} )
+    private Set<Map> mapSet;
+
+    public Set<Map> getMapSet() {
+        return mapSet;
+    }
+
+    public void setMapSet(Set<Map> mapSet) {
+        this.mapSet = mapSet;
+    }
 
     public int getId() {
         return id;
@@ -80,4 +97,3 @@ public class Player {
         this.roles = roles;
     }
 }
-
