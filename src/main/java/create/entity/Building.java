@@ -2,6 +2,7 @@ package create.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.Set;
 
 @Entity
 @Table(name = "building")
@@ -21,7 +22,15 @@ public class Building {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "map_id")
-    private Map map;
+    private Set<Map> mapSet;
+
+    public Set<Map> getMapSet() {
+        return mapSet;
+    }
+
+    public void setMapSet(Set<Map> mapSet) {
+        this.mapSet = mapSet;
+    }
 
     public int getId() {
         return id;
@@ -47,11 +56,5 @@ public class Building {
         this.imgPath = imgPath;
     }
 
-    public Map getMap() {
-        return map;
-    }
 
-    public void setMap(Map map) {
-        this.map = map;
-    }
 }

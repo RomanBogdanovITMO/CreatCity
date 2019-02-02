@@ -3,6 +3,7 @@ package create.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "map")
@@ -21,13 +22,19 @@ public class Map {
     private String imgPath;
 
     @OneToMany(mappedBy = "map", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Building> buildingList;
+    private Set<Building> buildingList;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "playerCreateMap_id")
-    private Player player;
+    private Set<Player> playerset;
 
+    public Set<Player> getPlayerset() {
+        return playerset;
+    }
 
+    public void setPlayerset(Set<Player> playerset) {
+        this.playerset = playerset;
+    }
 
     public int getId() {
         return id;
@@ -53,19 +60,11 @@ public class Map {
         this.imgPath = imgPath;
     }
 
-    public List<Building> getBuildingList() {
+    public Set<Building> getBuildingList() {
         return buildingList;
     }
 
-    public void setBuildingList(List<Building> buildingList) {
+    public void setBuildingList(Set<Building> buildingList) {
         this.buildingList = buildingList;
-    }
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    public void setPlayer(Player player) {
-        this.player = player;
     }
 }
