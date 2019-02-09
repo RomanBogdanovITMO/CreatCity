@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h1>Список карт</h1>
+<div th:each ="map : ${maps}">
+
+    <div th:utext="'id: ' + ${map.id}">...</div>
+
+    <div ><a th:utext="${map.title}" th:href="'/user/map?id=' + ${map.id}"></a></div>
+    <p></p>
+    <div th:utext="'path: ' + ${map.imgPath}">...</div>
+</div>
+<a href="/user/home">откатить назад</a>
+
+
+</body>
+</html>
