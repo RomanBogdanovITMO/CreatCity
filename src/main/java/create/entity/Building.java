@@ -2,6 +2,7 @@ package create.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -20,16 +21,17 @@ public class Building {
     @NotEmpty(message = "*Please provide imgPath")
     private String imgPath;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "map_id")
-    private Set<Map> mapSet;
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(name ="building_map",joinColumns = {@JoinColumn(name = "building_id")},
+            inverseJoinColumns = {@JoinColumn(name = "map_id")})
+    private Set<Map> map = new HashSet<>();
 
     public Set<Map> getMapSet() {
-        return mapSet;
+        return map;
     }
 
     public void setMapSet(Set<Map> mapSet) {
-        this.mapSet = mapSet;
+        this.map = mapSet;
     }
 
     public int getId() {

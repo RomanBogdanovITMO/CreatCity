@@ -2,6 +2,7 @@ package create.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -11,36 +12,41 @@ public class Map {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "map_id")
-    private int id;
+    private long id;
 
     @Column(name = "title")
-    @NotEmpty(message = "*Please enter a card name")
     private String title;
 
     @Column(name = "imgPath")
-    @NotEmpty(message = "*Please provide imgPath")
     private String imgPath;
 
-    @OneToMany(mappedBy = "map", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Building> buildingList;
+    @ManyToMany(mappedBy = "map")
+    private Set<Building> buildingSet = new HashSet<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "playerCreateMap_id")
-    private Set<Player> playerset;
-
-    public Set<Player> getPlayerset() {
-        return playerset;
+    public Set<Building> getBuildingSet() {
+        return buildingSet;
     }
 
-    public void setPlayerset(Set<Player> playerset) {
-        this.playerset = playerset;
+    public void setBuildingSet(Set<Building> buildingSet) {
+        this.buildingSet = buildingSet;
     }
+    //    @ManyToOne()
+//    @JoinColumn(name = "playerCreateMap_id")
+//    private Player players;
+//
+//    public Player getPlayers() {
+//        return players;
+//    }
+//
+//    public void setPlayers(Player players) {
+//        this.players = players;
+//    }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -60,11 +66,5 @@ public class Map {
         this.imgPath = imgPath;
     }
 
-    public Set<Building> getBuildingList() {
-        return buildingList;
-    }
 
-    public void setBuildingList(Set<Building> buildingList) {
-        this.buildingList = buildingList;
-    }
 }

@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -29,6 +30,7 @@ public class Player {
     private String name;
     @Column(name = "active")
     private int active;
+
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
@@ -36,10 +38,10 @@ public class Player {
 //    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true)
 //    private Set<Map> mapSet;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "Player_has_Map",joinColumns = {@JoinColumn(name = "playerPlayWithMap_id")},
+    @OneToMany()
+    @JoinTable(name = "Player_has_Map",joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns ={@JoinColumn(name = "map_id")} )
-    private Set<Map> mapSet;
+    private Set<Map> mapSet = new HashSet<>();
 
     public Set<Map> getMapSet() {
         return mapSet;
