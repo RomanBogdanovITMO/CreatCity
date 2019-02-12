@@ -3,14 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+.map {
+height: 80vh;
+}
+
+.building{
+height: 60px;
+border: 1px solid black;
+}
+</style>
+    <link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/themes/smoothness/jquery-ui.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.3/jquery-ui.js"></script>
+    <script src="http://code.jquery.com/jquery-3.3.1.js"
+            integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+            crossorigin="anonymous"></script>
 </head>
 <body>
 
 <h1>Ваша карта</h1>
 <div th:object="${mapOfId}">
 
-    <img th:src="@{/image/ + ${mapOfId.imgPath}' + .jpg}"/>
-    <div th:utext="'path: ' + ${mapOfId.imgPath}">...</div>
+    <img th:src="@{'/image/'+${mapOfId.imgPath}}" class="map"/>
+    <div th:utext="|path: ${mapOfId.imgPath}|">...</div>
 </div>
+<h2>список зданий</h2>
+<div id="buildings">
+    <div th:each ="building : ${buildings}">
+
+        <img th:src="@{'/image/'+${building.imgPath}}" id="${building.id}" class="building" />
+
+    </div>
+</div>
+<script>
+let buildings = document.getElementById('buildings');
+
+for (let i=0; i<buildings.children.length; i++){
+$(buildings.children[i]).draggable({
+stop: function( event, ui ) {
+console.log(ui.position);
+
+}
+});
+}
+</script>
 </body>
 </html>
